@@ -32,13 +32,13 @@ def update_kmer_count(kmer_data, kmer, next_char):
   character will be. 
   
   Args:
-    kmer_data(dict): Dictionary that stores the count of each k-mer, and the 
+    kmer_data(dict): Dictionary that stores each k-mer, and the 
     frequency of the following characters. 
     kmer(str): K-mer that is being counted.
     next_char(str): Next character that follows the k-mer. 
     
   Returns:
-    kmer_data (dict): The new k-mer count dictionary.
+    kmer_data (dict): The new k-mer dictionary.
   
   """
   #Check to see if the k-mer is new (not already analyzed)
@@ -68,7 +68,7 @@ def count_kmers_with_context(sequence, k):
     k(int): The length of the sequence
     
   Returns:
-    kmer_data (dict):Dictionary that stores the count of each k-mer and the 
+    kmer_data (dict):Dictionary that stores each k-mer and the 
     frequencies of the next characters. 
     
   """
@@ -86,18 +86,17 @@ def count_kmers_with_context(sequence, k):
       #Update the dictionary with the k-mer and the next character 
       kmer_data = update_kmer_count(kmer_data, kmer, next_char)
     
-  #Return the k-mer data dictionary of the k-mers, their counts, and the next
-  #character
+  #Return the k-mer data dictionary of the k-mers and the next character
   return kmer_data
 
 
 def write_results_to_file(kmer_data, output_filename):
   """
-  Writes the sorted k-mer data and the frequencies of the of the next characters
-  into an output file. 
+  Writes the frequency of each k-mer and the frequencies of the of the next 
+  characters into an output file. 
   
   Args:
-    kmer_data (dict): Dictionary containing the counts of each k-mer and the 
+    kmer_data (dict): Dictionary containing each k-mer and the 
     frequencies of the next character.
     output_filename (str): The name of the output file that the results will be 
     put into. 
@@ -112,20 +111,23 @@ def write_results_to_file(kmer_data, output_filename):
   with open(output_filename, 'w') as f:
       #Loop through each of the kmers in alphabetical order 
       for kmer in sorted_kmers:
-          #for the k-mer, get the frequencies of the next character 
-          next_chars = kmer_data[kmer]['next_chars']
-            
+          #for the k-mer, get the frequencies of the next character from the 
+          #dictionary
+          next_chars = kmer_data[kmer]
+          #compute the total number of each kmer
+          total=sum(next_chars.values())
           #Create a new string for the next charatcers that includes the 
           #character and its frequency 
-          next_char_str = " ".join(
+          next_char_str = ", ".join(
               f"{char}:{freq}" 
               #go through each of the characters and its frequency in the next 
               #characters 
               for char, freq in sorted(next_chars.items())
           )
             
-          #Write a line to the file with the k-mer and its next-character data
-          f.write(f"{kmer} {next_char_str}\n")
+          #Write a line to the file with the frequency of each k-mer and its 
+          #next-character data
+          f.write(f"{kmer} ({total}): {next_char_str}\n")
 
 
 def main():
