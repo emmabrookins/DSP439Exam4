@@ -44,19 +44,16 @@ def update_kmer_count(kmer_data, kmer, next_char):
   #Check to see if the k-mer is new (not already analyzed)
   if kmer not in kmer_data:
       #if the k-mer has not been seen before create a new entry in the 
-      #dictionary, initialize the count, and create an empty list for the 
-      #next character
-      kmer_data[kmer] = {'count': 1, 'next_chars': {}}
-    
-  #Add one to the total count for the k-mer
-  kmer_data[kmer]['count'] += 1
+      #dictionary, keep the entry empty for now so we are starting with a blank
+      #slate
+      kmer_data[kmer] = {}
     
   #Check to see if the nect character has not been seen after the current k-mer
-  if next_char not in kmer_data[kmer]['next_chars']:
+  if next_char not in kmer_data[kmer]:
       #initialize the count of the next character
-      kmer_data[kmer]['next_chars'][next_char] = 0
+      kmer_data[kmer][next_char] = 0
   #Add one to the count for the next character 
-  kmer_data[kmer]['next_chars'][next_char] += 1
+  kmer_data[kmer][next_char] += 1
 
   #Return the updated k-mer data dictionary
   return kmer_data

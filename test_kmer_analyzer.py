@@ -29,6 +29,38 @@ def test_validate_sequence_digit():
   exp=False 
   assert obs == exp
   
+from kmer_analyzer import update_kmer_count
+
+#Initial test of adding a new kmer and next character 
+def test_update_kmer_count_new():
+  kmer_data={}
+  kmer="AT"
+  next_char="G"
+  result=update_kmer_count(kmer_data,kmer,next_char)
+  obs=result["AT"]["G"]
+  exp=1
+  assert obs == exp
+  
+#Test for adding to an already existing kmer 
+def test_update_kmer_count_add():
+  kmer_data={"AT": {"G":1}}
+  kmer="AT"
+  next_char="G"
+  result=update_kmer_count(kmer_data,kmer,next_char)
+  obs=result["AT"]["G"]
+  exp=2
+  assert obs == exp
+  
+#Test for adding a new next character to an already existing kmer 
+def test_update_kmer_count_newnextchar():
+  kmer_data={"AT": {"G":1}}
+  kmer="AT"
+  next_char="C"
+  result=update_kmer_count(kmer_data,kmer,next_char)
+  obs=result["AT"]["C"]
+  exp=1 
+  assert obs == exp
+  
 
 def test_placeholder():
     assert True
