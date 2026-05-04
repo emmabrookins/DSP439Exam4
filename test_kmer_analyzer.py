@@ -61,6 +61,39 @@ def test_update_kmer_count_newnextchar():
   exp=1 
   assert obs == exp
   
+from kmer_analyzer import count_kmers_with_context
+
+#Initial test with one kmer to test counting 
+def test_count_kmers_with_context_onekmer():
+  sequence="ATG"
+  k=2
+  result=count_kmers_with_context(sequence,k)
+  obs=result["AT"]["G"]
+  exp=1
+  assert obs == exp
+  
+#Test for repeated kmers
+def test_count_kmers_with_context_repeat():
+  sequence="ATGATG"
+  k=2
+  result=count_kmers_with_context(sequence,k)
+  obs=result["AT"]["G"]
+  exp=2
+  assert obs == exp
+  
+#Test with different next characters 
+def test_count_kmers_with_context_different():
+  sequence="ATGC"
+  k=2
+  result=count_kmers_with_context(sequence,k)
+  obs1=result["AT"]["G"]
+  exp1=1
+  assert obs1 == exp1
+  obs2=result["TG"]["C"]
+  exp2=1
+  assert obs2 == exp2
+  
+  
 
 def test_placeholder():
     assert True
